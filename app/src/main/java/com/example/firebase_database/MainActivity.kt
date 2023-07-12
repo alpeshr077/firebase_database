@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         ref = FirebaseDatabase.getInstance().reference
@@ -26,9 +25,11 @@ class MainActivity : AppCompatActivity() {
             var contact = binding.edtContact.text.toString()
             var address = binding.edtAddress.text.toString()
 
-            var model = UserModel(name,suraname,contact,address)
+            var key = ref.root.push().key
 
-            ref.root.child("users").setValue(model)
+            var model = UserModel(key!!,name,suraname,contact,address)
+
+            ref.root.child("users").child(key).setValue(model)
 
         }
 
